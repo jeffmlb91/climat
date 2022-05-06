@@ -1,7 +1,9 @@
-const dataApiUrl = "https://www.metaweather.com/api/location/";
-const searchApiDataUrl = `${dataApiUrl}/search`;
-
-class requestControl {
+class fetchedForecastApi {
+  constructor() {
+    this.dataApiUrl = "https://www.metaweather.com/api/location/";
+    this.searchApiDataUrl = `${this.dataApiUrl}/search`;
+    this.addCorsHeader();
+  }
   addCorsHeader() {
     //Bypass the Cors restriction on the web
     $.ajaxPrefilter((options) => {
@@ -13,14 +15,26 @@ class requestControl {
   }
 
   getLocation() {
-    this.addCorsHeader();
-    $.getJSON(searchApiDataUrl, { query: "toronto" }).done((data) => this.getWeatherData(data[0].woeid));
+    $.getJSON(this.searchApiDataUrl, { query: "toronto" }).done((data) =>
+      this.getWeatherData(data[0].woeid)
+    );
   }
 
-  getWeatherData(location){
-    $.getJSON(`${dataApiUrl}/${location}`).done(data => console.log('The weather data is:', data));
+  getWeatherData(location) {
+    $.getJSON(`${this.dataApiUrl}/${location}`).done((data) =>
+      console.log("The weather data is:", data)
+    );
+  }
+}
+class requestControl {
+  constructor() {
+    this.fetchedForecastApi = new fetchedForecastApi();
+    this.init();
+  }
+
+  init() {
+    this.fetchedForecastApi.getLocation();
   }
 }
 
 const request = new requestControl();
-request.getLocation();
