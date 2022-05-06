@@ -26,6 +26,15 @@ class fetchedForecastApi {
     );
   }
 }
+
+class coreDomElements {
+    constructor() {
+        this.searchForm = $('#search-form');
+        this.errorBox = $('#error-box');
+        this.loadedBox =$('#loaded-box');
+        this.forcastBox = $('#forcast-box');
+    }
+}
 class requestControl {
   constructor() {
     this.fetchedForecastApi = new fetchedForecastApi();
